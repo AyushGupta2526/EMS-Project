@@ -1,23 +1,28 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Login from './components/Auth/Login'
 import EmployeeDashboard from './components/Dashboard/EmployeeDashboard'
 import AdminDashboard from './components/Dashboard/AdminDashboard'
 import { useState } from 'react'
+import { AuthContext } from './context/AuthProvider.jsx'
 
 const App = () => {
 
-  const [user, setuser] = useState(null)
+  const [user, setUser] = useState(null)
+  const authData = useContext(AuthContext);
 
-  const handleLogin = (email,passwords) => {
+
+  const handleLogin = (email,password) => {
     if(email == 'admin@me.com' && password == '123'){
-      setuser('admin')
-    }else if(email == 'user@me.com' && passwords == '123'){
-      setuser('employee')
+      setUser('admin')
+    }else if(authData && authData.employees.find((e)=>email == e.email && password == e.password)){
+      setUser('employee')
     }
     else{
-      alert("invalid Credentials")
+      alert("Invalid Credentials")
     }
   }
+
+  const data = useContext(AuthContext);
 
   return (
    <>
